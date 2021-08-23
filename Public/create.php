@@ -5,6 +5,7 @@ if (isset($_POST['submit'])) {
 
 //include the config file 
 require"../config.php";
+require "common.php";
 try{
 
 $connection = new PDO($dsn, $username, $password, $options);
@@ -12,27 +13,24 @@ $connection = new PDO($dsn, $username, $password, $options);
 $new_task = array (
     "taskname" => $_POST['taskname'],
     "duedate" => $_POST['duedate'],
-    "taskdetail" => $_POST['taskdetail'],
-    "occurance" => $_POST['occurance'],
+    "taskdetails" => $_POST['taskdetails'],
 );
 
-$sql = "INSERT INTO works (
+$sql= "INSERT INTO works (
     taskname,
     duedate,
-    taskdetail,
-    occurance
-    ) VALUES (
+    taskdetails    
+    ) 
+    VALUES (
     :taskname,
     :duedate,
-    :taskdetail,
-    :occurance
+    :taskdetails   
     )";
 
 $statement = $connection->prepare($sql);
 $statement->execute($new_task);
     } catch(PDOException $error) {
-        echo $sql . "<br>" . $error->getMessage();
-    }
+        echo $sql . "<br>" . $error->getMessage();}
 }
     ?>
 
@@ -52,8 +50,6 @@ $statement->execute($new_task);
 <input type="date" name="duedate" id="duedate"> 
 <label for="taskdetails">Task Details</label> 
 <input type="text" name="taskdetails" id="taskdetails"> 
-<label for="occurence">Occurence</label> 
-<input type="enum" name="occurence" id="occurence"> 
 <input type="submit" name="submit" value="Submit">
 </form>
 
