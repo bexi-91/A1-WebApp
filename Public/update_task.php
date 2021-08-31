@@ -1,6 +1,5 @@
 <?php 
-
-// include the config file that we created last week
+// include the config and common file
 require "../config.php";
 require "common.php";
 
@@ -9,7 +8,6 @@ if (isset($_POST['submit'])) {
     try {
         $connection = new PDO($dsn, $username, $password, $options);  
         
-        //grab elements from form and set as varaible
         $work =[
           "id"         => $_POST['id'],
           "taskname" => $_POST['taskname'],
@@ -22,13 +20,11 @@ if (isset($_POST['submit'])) {
                 SET id = :id, 
                     taskname = :taskname, 
                     duedate = :duedate, 
-                    taskdetails = :taskdetails, 
+                    taskdetails = :taskdetails 
                 WHERE id = :id";
 
-        //prepare sql statement
         $statement = $connection->prepare($sql);
         
-        //execute sql statement
         $statement->execute($work);
 
     } catch(PDOException $error) {
@@ -37,69 +33,81 @@ if (isset($_POST['submit'])) {
 }
 
 // GET data from DB
-//simple if/else statement to check if the id is available
 if (isset($_GET['id'])) {
-    //yes the id exists 
-    
     try {
-        // standard db connection
         $connection = new PDO($dsn, $username, $password, $options);
         
-        // set if as variable
         $id = $_GET['id'];
         
-        //select statement to get the right data
         $sql = "SELECT * FROM works WHERE id = :id";
         
-        // prepare the connection
         $statement = $connection->prepare($sql);
         
-        //bind the id to the PDO id
         $statement->bindValue(':id', $id);
         
-        // now execute the statement
         $statement->execute();
         
-        // attach the sql statement to the new work variable so we can access it in the form
         $work = $statement->fetch(PDO::FETCH_ASSOC);
         
     } catch(PDOExcpetion $error) {
         echo $sql . "<br>" . $error->getMessage();
     }
 } else {
-    // no id, show error
     echo "No id - something went wrong";
-    //exit;
 };
-
-
 ?>
 
 <?php include "templates/header.php"; ?>
+    
+    <div class="block">
+        <section class="hero">
+            <div class= "hero-body">
+                <div class= "container">
+                    <h2 class="title">Edit a task</h2>
+                </div>
+            </div>
+        </section>
+    </div>
 
-<?php if (isset($_POST['submit']) && $statement) : ?>
-<p>Task successfully updated.</p>
-<?php endif; ?>
+    <?php if (isset($_POST['submit']) && $statement) { ?>
+        <div class="card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    Task successfully updated!
+                </p>
+            </header>
+            <div class="card-content">
+                <div class="content">
+                    <p> <a href="update.php"> Back to my list </a> </p> 
+                </div>
+            </div>
+        </div>
+        <?php } ?>
 
-<h2>Edit a task</h2>
+    <div class="block">
+        <form method="post">
+            <div class="column">
+                <input type="hidden" class="input" name="id" id="id" value="<?php echo escape($work['id']); ?>">
+            </div>
 
-<form method="post">
+            <div class="column">
+                <label for="taskname">Task Name</label>
+                <input type="text" class="input" name="taskname" id="taskname" value="<?php echo escape($work['taskname']); ?>">
+             </div>
+            
+            <div class="column">
+                <label for="duedate">Due Date</label>
+                <input type="date" class="input" name="duedate" id="duedate" value="<?php echo escape($work['duedate']); ?>">
+            </div>
 
-<label for="id">ID</label>
-<input type="text" name="id" id="id" value="<?php echo escape($work['id']); ?>" >
+            <div class="column">
+                <label for="taskdetails">Task Details</label>
+                <input type="text" class="input" name="taskdetails" id="taskdetails" value="<?php echo escape($work['taskdetails']); ?>">
+            </div>
 
-<label for="taskname">Artist Name</label>
-<input type="text" name="taskname" id="taskname" value="<?php echo escape($work['taskname']); ?>">
-
-<label for="duedate">Work Title</label>
-<input type="date" name="duedate" id="duedate" value="<?php echo escape($work['duedate']); ?>">
-
-<label for="taskdetails">Work Date</label>
-<input type="text" name="taskdetails" id="taskdetails" value="<?php echo escape($work['taskdetails']); ?>">
-
-<input type="submit" name="submit" value="Save">
-
-</form>
-
-
+            <div class="column">
+                <input class= "button is-link is-small" type="submit" name="submit" value="Save">
+            </div>
+        </form>
+    </div>
 <?php include "templates/footer.php"; ?>
