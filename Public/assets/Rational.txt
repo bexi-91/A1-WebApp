@@ -1,0 +1,49 @@
+For the basic web app assignment, I created a to-do list app. 
+It allows the user to create an account, log in, view their tasks, 
+edit their tasks, and complete tasks, deleting them from the database.  
+
+Basing the code on the exercises we worked through in class, I was able 
+to adapt the process used to create the artwork tracker app to become my 
+to-do list. Using the headings needed within a to-do list, I set them up 
+on the MySQL database to function as slightly differently to the basic 
+VARCHAR entries used in class. I was able to create a DATE column that 
+allowed the user to assign the date the task needed to be completed by 
+selecting from a drop-down calendar.  
+
+I started out with a similar structure to the class example but decided 
+to streamline the number of pages the user views. I combined the view, 
+update and delete pages under the update page which allows the user to 
+manage their tasks without swapping pages around. I also included the 
+account management in the footer, once again limiting the number of pages.  
+
+The structure of the web app prompts the user to log in when opening the 
+website. The log in page offers a link to create an account if the viewer 
+does not have one. The code is set up so that the user can only see the 
+tasks created by themselves, this is done by requiring the function to only 
+display tasks that have been created by the logged in user id.  
+
+Once logged in, the user is directed to a welcome page which greets the user 
+by the account name and prompts them to add a task. Using the navigation header, 
+the user can view a task list or add a task. Adding a task requires a task name 
+and due date but task details are optional. Once the user adds a task, a 
+notification pops up to indicate it has been successful and offers them the option 
+of adding another task or viewing the task list.  
+
+The task list offers the list of tasks arranged by due date as well as the details 
+assigned to the entry. The button on the right side of the entry allows the user 
+to edit a task. If the user would like to complete the task, there is a button on 
+the left side of the entry. If the complete button is pressed, a pop up confirms if 
+the user would like to complete the task to ensure there is limited user error. Once 
+a task has been completed, a notification appears congratulating the user on 
+completing the task.  
+
+For the CSS, I implemented the use of Bulma, an open-source CSS framework that 
+requires linking to an external style sheet to access. While I could have taken 
+the customisation much further, I did implement the clever modularity that is the 
+backbone of the Bulma design. For example, I was able to place each task entry into 
+a card which aligns the separate tasks while also distinctively separating the tasks.  
+
+While I am aware that there is room for improvement in my to-do list, it functions as 
+a usable program and is available on a remote server. I managed to surprise myself in 
+my abilities to create this and improve on the basics developed in class. I had plenty 
+of ideas around how to develop the program further but was limited by skill and time. 
